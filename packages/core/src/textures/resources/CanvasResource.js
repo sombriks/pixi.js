@@ -13,7 +13,6 @@ export default class CanvasResource extends TextureResource
     {
         super(source);
 
-        this.loaded = true;
         this._oldWidth = source.width;
         this._oldHeight = source.height;
     }
@@ -27,6 +26,8 @@ export default class CanvasResource extends TextureResource
 
         if (this._oldWidth !== source.width || this._oldHeight !== source.height)
         {
+            this._oldWidth = source.width;
+            this._oldHeight = source.height;
             baseTexture.setRealSize(source.width, source.height);
         }
         else

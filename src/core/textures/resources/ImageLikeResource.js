@@ -10,7 +10,7 @@ export default class ImageLikeResource extends TextureResource
         super();
         this.baseTexture = null;
         this.source = source;
-        this.loaded = false;
+        this.loaded = true;
         this.destroyed = false;
     }
 
@@ -20,7 +20,11 @@ export default class ImageLikeResource extends TextureResource
         {
             this.baseTexture = baseTexture;
         }
-        baseTexture.setRealSize(this.width, this.height);
+
+        if (this.loaded)
+        {
+            baseTexture.setRealSize(this.width, this.height);
+        }
     }
 
     onTextureUpload(renderer, baseTexture, glTexture)

@@ -169,19 +169,6 @@ export default class ImageResource extends ImageLikeResource
         return true;
     }
 
-    onTextureNew(baseTexture)
-    {
-        if (!this.baseTexture)
-        {
-            this.baseTexture = baseTexture;
-        }
-
-        if (this.loaded)
-        {
-            baseTexture.setRealSize(this.source.width, this.source.height);
-        }
-    }
-
     static from(url, crossorigin)
     {
         const image = new Image();
