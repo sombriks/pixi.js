@@ -1,32 +1,25 @@
 import Runner from 'mini-runner';
 
 /**
- * Base Texture resource class.
+ * Base Texture resource class, manages validation and upload depends on its type.
+ * onTextureUpload is required.
+ * Can also contain onTextureStyle, onTextureNew, onTextureTag, onTextureDestroy.
  * @class
  * @memberof PIXI
  * @param {any} source - Source element to use.
  */
 export default class TextureResource
 {
-    constructor(source)
+    /**
+     * uploads the texture or returns false if it cant for some reason
+     *
+     * @param renderer {PIXI.WebGLRenderer} yeah, renderer!
+     * @param baseTexture {PIXI.BaseTexture} the texture
+     * @param glTexture {PIXI.glCore.GLTexture} texture instance for this webgl context
+     * @returns {boolean} true is success
+     */
+    onTextureUpload(renderer, baseTexture, glTexture)
     {
-        this.source = source;
-
-        this.loaded = false; // TODO rename to ready?
-
-        this.width = -1;
-        this.height = -1;
-
-        this.uploadable = true;
-
-        this.resourceUpdated = new Runner('resourceUpdated');
-
-        // create a prommise..
-        this.load = null;
-    }
-
-    destroy()
-    {
-        // somthing
+        return false;
     }
 }

@@ -29,6 +29,7 @@ export { default as FrameBuffer } from './textures/FrameBuffer';
 export { default as CubeTexture } from './textures/CubeTexture';
 export { default as BaseTexture } from './textures/BaseTexture';
 export { default as ImageResource } from './textures/resources/ImageResource';
+export { default as ImageLikeResource } from './textures/resources/ImageLikeResource';
 export { default as CanvasResource } from './textures/resources/CanvasResource';
 export { default as SVGResource } from './textures/resources/SVGResource';
 export { default as VideoResource } from './textures/resources/VideoResource';

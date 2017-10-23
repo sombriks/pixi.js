@@ -13,16 +13,26 @@ export default class CanvasResource extends TextureResource
     {
         super(source);
 
-        this.loaded = true; // TODO rename to ready?
-        this.width = source.width;
-        this.height = source.height;
+        this.loaded = true;
+        this._oldWidth = source.width;
+        this._oldHeight = source.height;
+    }
 
-        this.uploadable = true;
+    update()
+    {
+        const baseTexture = this.baseTexture;
+        const source = this.source;
 
-        this.load = new Promise((resolve) =>
+        if (!baseTexture) return;
+
+        if (this._oldWidth !== source.width || this._oldHeight !== source.height)
         {
-            resolve(this);
-        });
+            baseTexture.setRealSize(source.width, source.height);
+        }
+        else
+        {
+            baseTexture.update();
+        }
     }
 
     static from(canvas)

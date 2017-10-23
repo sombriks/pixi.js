@@ -54,7 +54,6 @@ export default class BaseTexture extends EventEmitter
          *
          * @member {Boolean}
          */
-        //  TODO fix mipmapping..
         this.mipmap = settings.MIPMAP_TEXTURES;
 
         /**
@@ -116,6 +115,8 @@ export default class BaseTexture extends EventEmitter
 
         this.textureCacheIds = [];
 
+        this.destroyed = false;
+
         /**
          * Fired when a not-immediately-available source finishes loading.
          *
@@ -168,10 +169,10 @@ export default class BaseTexture extends EventEmitter
     /**
      * Changes style of BaseTexture
      *
-     * @param scaleMode pixi scalemode
-     * @param format webgl pixel format
-     * @param type webgl pixel type
-     * @param mipmap enable trilinear filtering
+     * @param {number} scaleMode pixi scalemode
+     * @param {number} format webgl pixel format
+     * @param {number} type webgl pixel type
+     * @param {boolean} mipmap enable mipmaps
      * @returns {BaseTexture} this
      */
     setStyle(scaleMode,
@@ -227,9 +228,9 @@ export default class BaseTexture extends EventEmitter
     /**
      * Changes w/h/resolution. Texture becomes valid if width and height are greater than zero.
      *
-     * @param width w
-     * @param height h
-     * @param [resolution] res
+     * @param {number} width w
+     * @param {number} height h
+     * @param {number} [resolution] res
      * @returns {BaseTexture} this
      */
     setSize(width, height, resolution)
@@ -241,6 +242,21 @@ export default class BaseTexture extends EventEmitter
         this.update();
 
         return this;
+    }
+
+    /**
+     * Sets real size of baseTexture, preserves current resolution
+     *
+     * @param {number} realWidth w
+     * @param {number} realHeight h
+     * @returns {BaseTexture} this
+     */
+    setRealSize(realWidth, realHeight)
+    {
+        this.width = realWidth / this.resolution;
+        this.height = realHeight / this.resolution;
+        this.isPowerOfTwo = bitTwiddle.isPow2(this.realWidth) && bitTwiddle.isPow2(this.realHeight);
+        this.update();
     }
 
     /**
@@ -341,6 +357,8 @@ export default class BaseTexture extends EventEmitter
 
         BaseTexture.removeFromCache(this);
         this.textureCacheIds = null;
+
+        this.destroyed = true;
     }
 
     /**

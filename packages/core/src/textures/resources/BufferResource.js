@@ -6,12 +6,18 @@ export default class BufferResource extends TextureResource
     {
         super(source);
 
-        this.uploadable = false;
+        /**
+         * Source array
+         * Cannot be ClampedUint8Array because it cant be uploaded to WebGL
+         *
+         * @member {Float32Array|Uint8Array|Uint32Array}
+         */
+        this.source = source;
+    }
 
-        this.load = new Promise((resolve) =>
-        {
-            resolve(this);
-        });
+    onTextureUpload(renderer, baseTexture, glTexture)
+    {
+
     }
 
     static from(array)

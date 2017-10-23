@@ -161,7 +161,7 @@ export default class TextureSystem extends WebGLSystem
 
         // TODO there are only 3 textures as far as im aware?
         // Cube / 2D and later 3d. (the latter is WebGL2, we will get to that soon!)
-        if (texture.target === gl.TEXTURE_CUBE_MAP)
+        /*if (texture.target === gl.TEXTURE_CUBE_MAP)
         {
             // console.log( gl.UNSIGNED_BYTE)
             for (i = 0; i < texture.sides.length; i++)
@@ -246,25 +246,26 @@ export default class TextureSystem extends WebGLSystem
                 }
             }
         }
-        else
-        if (texture.resource)
+        else*/
+        if (texture.resource && texture.resource.onTextureUpload(this, texture, glTexture))
         {
-            if (texture.resource.uploadable)
-            {
-                glTexture.upload(texture.resource.source);
-            }
-            else
-            {
-                glTexture.uploadData(texture.resource.source, texture.width, texture.height);
-            }
+            // texture is uploaded, dont do anything!
         }
         else
         {
+            // just set its size
             glTexture.uploadData(null, texture.width, texture.height);
         }
 
         // lets only update what changes..
-        this.setStyle(texture);
+        if (texture.resource && texture.resource.onTextureStyle)
+        {
+            texture.resource.onTextureStyle(this, texture, glTexture);
+        }
+        else
+        {
+            this.setStyle(texture);
+        }
     }
 
     /**
@@ -305,7 +306,7 @@ export default class TextureSystem extends WebGLSystem
         gl.texParameteri(texture.target, gl.TEXTURE_WRAP_S, texture.wrapMode);
         gl.texParameteri(texture.target, gl.TEXTURE_WRAP_T, texture.wrapMode);
 
-        if (texture.mipmap)
+        if (texture.mipmap && texture.width === texture.height)
         {
             /* eslint-disable max-len */
             gl.texParameteri(texture.target, gl.TEXTURE_MIN_FILTER, texture.scaleMode ? gl.LINEAR_MIPMAP_LINEAR : gl.NEAREST_MIPMAP_NEAREST);
