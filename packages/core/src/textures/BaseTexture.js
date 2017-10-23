@@ -261,9 +261,20 @@ export default class BaseTexture extends EventEmitter
         return this;
     }
 
+    /**
+     * Sets the resource if it wasnt set. Throws error if resource already present
+     *
+     * @param resource resource that is managing this basetexture
+     * @returns {BaseTexture} this
+     */
     setResource(resource)
     {
-        if (this.resource && this.resource !== resource)
+        if (this.resource === resource)
+        {
+            return this;
+        }
+
+        if (this.resource)
         {
             throw new Error("Resource can be set only once");
         }
@@ -277,6 +288,9 @@ export default class BaseTexture extends EventEmitter
         return this;
     }
 
+    /**
+     * Invalidates the object. Texture becomes valid if width and height are greater than zero.
+     */
     update()
     {
         if (!this.valid)
@@ -296,8 +310,9 @@ export default class BaseTexture extends EventEmitter
     }
 
     /**
-     * Destroys this base texture
-     *
+     * Destroys this base texture.
+     * The method stops if resource doesn't want this texture to be destroyed.
+     * Removes texture from all caches.
      */
     destroy()
     {
