@@ -248,7 +248,7 @@ export default class VideoResource extends ImageLikeResource
      * @param {string} [videoSrc.mime] - The mimetype of the video (e.g. 'video/mp4'). If not specified
      *  the url's extension will be used as the second part of the mime type.
      * @param {number} scaleMode - See {@link PIXI.SCALE_MODES} for possible values
-     * @return {PIXI.VideoBaseTexture} Newly created VideoBaseTexture
+     * @return {PIXI.VideoResource} Newly created VideoBaseTexture
      */
     static fromUrl(videoSrc, scaleMode)
     {
