@@ -101,7 +101,6 @@ export default class TextureSystem extends WebGLSystem
 
                 if (glTexture.dirtyId !== texture.dirtyId)
                 {
-                    glTexture.dirtyId = texture.dirtyId;
                     this.updateTexture(texture);
                 }
 
@@ -266,6 +265,7 @@ export default class TextureSystem extends WebGLSystem
         {
             this.setStyle(texture);
         }
+        glTexture.dirtyId = texture.dirtyId;
     }
 
     /**

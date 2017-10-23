@@ -13,16 +13,23 @@ export default class CanvasResource extends TextureResource
     {
         super(source);
 
-        this._oldWidth = source.width;
-        this._oldHeight = source.height;
+        this.loaded = true;
+        this._oldWidth = 0;
+        this._oldHeight = 0;
     }
 
     update()
     {
-        const baseTexture = this.baseTexture;
-        const source = this.source;
+        if (this.baseTexture)
+        {
+            this._validate();
+        }
+    }
 
-        if (!baseTexture) return;
+    _validate()
+    {
+        const source = this.source;
+        const baseTexture = this.baseTexture;
 
         if (this._oldWidth !== source.width || this._oldHeight !== source.height)
         {

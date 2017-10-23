@@ -23,13 +23,30 @@ export default class ImageLikeResource extends TextureResource
 
         if (this.loaded)
         {
-            baseTexture.setRealSize(this.width, this.height);
+            this._validate();
         }
+    }
+
+    /**
+     * called when both BaseTexture and Resource are ready for work
+     *
+     * @protected
+     */
+    _validate()
+    {
+        this.baseTexture.setRealSize(this.width, this.height);
     }
 
     onTextureUpload(renderer, baseTexture, glTexture)
     {
-        glTexture.upload(this.source);
+        const gl = renderer.gl;
+
+        gl.texImage2D(baseTexture.target,
+            0,
+            baseTexture.format,
+            baseTexture.format,
+            baseTexture.type,
+            this.source);
 
         return true;
     }

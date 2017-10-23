@@ -1,5 +1,3 @@
-import Runner from 'mini-runner';
-
 /**
  * Base Texture resource class, manages validation and upload depends on its type.
  * onTextureUpload is required.
