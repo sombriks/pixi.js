@@ -4,7 +4,6 @@
  * Can also contain onTextureStyle, onTextureNew, onTextureTag, onTextureDestroy.
  * @class
  * @memberof PIXI
- * @param {any} source - Source element to use.
  */
 export default class TextureResource
 {

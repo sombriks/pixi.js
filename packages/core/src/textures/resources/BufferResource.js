@@ -1,6 +1,6 @@
 import TextureResource from './TextureResource';
 
-export default class BufferResource extends TextureResource
+export default class BufferResource extends SingleTextureResource
 {
     constructor(data, width, height)
     {
@@ -13,16 +13,18 @@ export default class BufferResource extends TextureResource
          * @member {Float32Array|Uint8Array|Uint32Array}
          */
         this.data = data;
-        this.width = width;
-        this.height = height;
-
-        this.loaded = true;
-        this.load = Promise.resolve();
+        this._width = width;
+        this._height = height;
     }
 
-    onTextureNew(baseTexture)
+    get width()
     {
-        baseTexture.setRealSize(this.width, this.height);
+        return this._width;
+    }
+
+    get height()
+    {
+        return this._height;
     }
 
     onTextureUpload(renderer, baseTexture, glTexture)
@@ -40,10 +42,5 @@ export default class BufferResource extends TextureResource
             this.data);
 
         return true;
-    }
-
-    static from(array)
-    {
-        return new BufferResource(array);
     }
 }

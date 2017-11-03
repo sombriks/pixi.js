@@ -17,7 +17,6 @@ export default class SVGResource extends TextureResource
 
         this.svgSource = svgSource;
         this.scale = scale;
-        this.uploadable = true;
 
         this.resolve = null;
 

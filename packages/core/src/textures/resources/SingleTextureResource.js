@@ -1,15 +1,17 @@
 import TextureResource from './TextureResource';
 
 /**
- * Base for all the image/canvas resources
+ * Texture resource for single baseTexture that can be loaded and validated
+ *
+ * @class
+ * @memberof PIXI
  */
-export default class ImageLikeResource extends TextureResource
+export default class SingleTextureResource extends TextureResource
 {
-    constructor(source)
+    constructor()
     {
         super();
         this.baseTexture = null;
-        this.source = source;
         this.loaded = true;
         this.destroyed = false;
     }
@@ -27,6 +29,16 @@ export default class ImageLikeResource extends TextureResource
         }
     }
 
+    get width()
+    {
+        return 0;
+    }
+
+    get height()
+    {
+        return 0;
+    }
+
     /**
      * called when both BaseTexture and Resource are ready for work
      *
@@ -35,20 +47,6 @@ export default class ImageLikeResource extends TextureResource
     _validate()
     {
         this.baseTexture.setRealSize(this.width, this.height);
-    }
-
-    onTextureUpload(renderer, baseTexture, glTexture)
-    {
-        const gl = renderer.gl;
-
-        gl.texImage2D(baseTexture.target,
-            0,
-            baseTexture.format,
-            baseTexture.format,
-            baseTexture.type,
-            this.source);
-
-        return true;
     }
 
     destroy()
@@ -71,15 +69,5 @@ export default class ImageLikeResource extends TextureResource
     load()
     {
         return Promise.resolve();
-    }
-
-    get width()
-    {
-        return this.source.width;
-    }
-
-    get height()
-    {
-        return this.source.height;
     }
 }
