@@ -1,9 +1,9 @@
-import SingleTextureResource from './SingleTextureResource';
+import TextureResource from './TextureResource';
 
 /**
  * Base for all the image/canvas resources
  */
-export default class ImageLikeResource extends SingleTextureResource
+export default class BaseImageResource extends TextureResource
 {
     constructor(source)
     {

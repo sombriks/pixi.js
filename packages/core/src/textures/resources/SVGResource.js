@@ -1,5 +1,5 @@
 import { decomposeDataUri, uid } from '@pixi/utils';
-import TextureResource from './TextureResource';
+import BaseImageResource from './BaseImageResource';
 
 /**
  * Resource type for SVG elements and graphics.
@@ -9,7 +9,7 @@ import TextureResource from './TextureResource';
  * @param {SVGResource} svgSource - Source SVG element.
  * @param {number} [scale=1] Scale to apply to SVG.
  */
-export default class SVGResource extends TextureResource
+export default class SVGResource extends BaseImageResource
 {
     constructor(svgSource, scale = 1)
     {

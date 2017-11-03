@@ -1,15 +1,15 @@
 import { determineCrossOrigin } from '@pixi/utils';
-import ImageLikeResource from './ImageLikeResource';
+import BaseImageResource from './BaseImageResource';
 import settings from '../../settings';
 
 /**
  * Resource type for HTMLImageElement.
  * @class
- * @extends PIXI.TextureResource
+ * @extends PIXI.BaseImageResource
  * @memberof PIXI
  * @param {HTMLImageElement} source - Image element to use
  */
-export default class ImageResource extends ImageLikeResource
+export default class ImageResource extends BaseImageResource
 {
     /**
      *

@@ -1,6 +1,6 @@
 import TextureResource from './TextureResource';
 import BaseTexture from '../BaseTexture';
-import { TARGETS } from './../const';
+import { TARGETS } from '@pixi/constants';
 
 export default class CubeResource extends TextureResource
 {
@@ -24,8 +24,18 @@ export default class CubeResource extends TextureResource
 
         this.loaded = false;
         this._load = null;
-        this.width = 0;
-        this.height = 0;
+        this._width = 0;
+        this._height = 0;
+    }
+
+    get width()
+    {
+        return this._width;
+    }
+
+    get height()
+    {
+        return this._height;
     }
 
     setResource(resource, index)
@@ -76,8 +86,8 @@ export default class CubeResource extends TextureResource
         )).then(() =>
         {
             this.loaded = true;
-            this.width = resources[0].width;
-            this.height = resources[0].height;
+            this._width = resources[0].width;
+            this._height = resources[0].height;
             if (this.baseTexture)
             {
                 this._validate();

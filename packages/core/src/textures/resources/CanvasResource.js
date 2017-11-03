@@ -1,13 +1,13 @@
-import TextureResource from './TextureResource';
+import BaseImageResource from './BaseImageResource';
 
 /**
  * Resource type for HTMLCanvasElement.
  * @class
- * @extends PIXI.TextureResource
+ * @extends PIXI.BaseImageResource
  * @memberof PIXI
  * @param {HTMLCanvasElement} source - Canvas element to use
  */
-export default class CanvasResource extends TextureResource
+export default class CanvasResource extends BaseImageResource
 {
     constructor(source)
     {

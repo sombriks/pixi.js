@@ -1,14 +1,14 @@
-import TextureResource from './TextureResource';
+import BaseImageResource from './BaseImageResource';
 import { shared } from '@pixi/ticker';
 
 /**
  * Resource type for HTMLVideoElement.
  * @class
- * @extends PIXI.ImageLikeResource
+ * @extends PIXI.BaseImageResource
  * @memberof PIXI
  * @param {HTMLVideoElement} source - Video element to use.
  */
-export default class VideoResource extends ImageLikeResource
+export default class VideoResource extends BaseImageResource
 {
     constructor(source, loadRightNow = true)
     {

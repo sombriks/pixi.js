@@ -1,22 +1,73 @@
+import IResource from './IResource';
+
 /**
- * Base Texture resource class, manages validation and upload depends on its type.
- * onTextureUpload is required.
- * Can also contain onTextureStyle, onTextureNew, onTextureTag, onTextureDestroy.
+ * Texture resource for single baseTexture that can be loaded and validated
+ *
  * @class
  * @memberof PIXI
  */
-export default class TextureResource
+export default class TextureResource extends IResource
 {
-    /**
-     * uploads the texture or returns false if it cant for some reason
-     *
-     * @param renderer {PIXI.WebGLRenderer} yeah, renderer!
-     * @param baseTexture {PIXI.BaseTexture} the texture
-     * @param glTexture {PIXI.glCore.GLTexture} texture instance for this webgl context
-     * @returns {boolean} true is success
-     */
-    onTextureUpload(renderer, baseTexture, glTexture)
+    constructor()
     {
-        return false;
+        super();
+        this.baseTexture = null;
+        this.loaded = true;
+        this.destroyed = false;
+    }
+
+    onTextureNew(baseTexture)
+    {
+        if (!this.baseTexture)
+        {
+            this.baseTexture = baseTexture;
+        }
+
+        if (this.loaded)
+        {
+            this._validate();
+        }
+    }
+
+    get width()
+    {
+        return 0;
+    }
+
+    get height()
+    {
+        return 0;
+    }
+
+    /**
+     * called when both BaseTexture and Resource are ready for work
+     *
+     * @protected
+     */
+    _validate()
+    {
+        this.baseTexture.setRealSize(this.width, this.height);
+    }
+
+    destroy()
+    {
+        this.source = null;
+        this.baseTexture = null;
+        this.destroyed = true;
+    }
+
+    onTextureDestroy(baseTexture)
+    {
+        if (this.baseTexture === baseTexture && !this.destroyed)
+        {
+            this.destroy();
+        }
+
+        return true;
+    }
+
+    load()
+    {
+        return Promise.resolve();
     }
 }
