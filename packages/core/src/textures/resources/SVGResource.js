@@ -1,5 +1,5 @@
 import { decomposeDataUri, uid } from '@pixi/utils';
-import BaseImageResource from './BaseImageResource';
+import TextureResource from './BaseImageResource';
 
 /**
  * Resource type for SVG elements and graphics.
@@ -11,20 +11,55 @@ import BaseImageResource from './BaseImageResource';
  */
 export default class SVGResource extends BaseImageResource
 {
-    constructor(svgSource, scale = 1)
+    constructor(svgSource, scale = 1, loadRightNow = true)
     {
-        super();
+        super(document.createElement('canvas'));
 
         this.svgSource = svgSource;
         this.scale = scale;
 
-        this.resolve = null;
+        this._width = 0;
+        this._height = 0;
+        this._load = null;
+        this._resolve = null;
+        this.loaded = false;
 
-        this.load = new Promise((resolve) =>
+        if (loadRightNow)
         {
-            this.resolve = resolve;
-            this._loadSvgSourceUsingXhr();
+            this.load();
+        }
+    }
+
+    get width()
+    {
+        return this._width;
+    }
+
+    get height()
+    {
+        return this._height;
+    }
+
+    load()
+    {
+        if (this._load)
+        {
+            return this._load;
+        }
+
+        this._load = new Promise((resolve) =>
+        {
+            this._resolve = () =>
+            {
+                if (this.baseTexture)
+                {
+                    this._validate();
+                }
+                resolve(this);
+            };
         });
+
+        return this._load;
     }
 
     /**
@@ -110,14 +145,14 @@ export default class SVGResource extends BaseImageResource
         }
 
         // Scale realWidth and realHeight
-        this.width = Math.round(svgWidth * this.scale);
-        this.height = Math.round(svgHeight * this.scale);
+        this._width = Math.round(svgWidth * this.scale);
+        this._height = Math.round(svgHeight * this.scale);
 
         // Create a canvas element
-        const canvas = document.createElement('canvas');
+        const canvas = this.source;
 
-        canvas.width = this.width;
-        canvas.height = this.height;
+        canvas.width = this._width;
+        canvas.height = this._height;
         canvas._pixiId = `canvas_${uid()}`;
 
         // Draw the Svg to the canvas
@@ -125,9 +160,7 @@ export default class SVGResource extends BaseImageResource
             .getContext('2d')
             .drawImage(tempImage, 0, 0, svgWidth, svgHeight, 0, 0, this.width, this.height);
 
-        this.source = canvas;
-
-        this.resolve(this);
+        this._resolve();
     }
 
     /**

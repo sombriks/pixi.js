@@ -1,4 +1,5 @@
 import TextureResource from './TextureResource';
+import ImageResource from './ImageResource';
 import BaseTexture from '../BaseTexture';
 import { TARGETS } from '@pixi/constants';
 
@@ -45,15 +46,8 @@ export default class CubeResource extends TextureResource
 
     onTextureNew(baseTexture)
     {
-        if (!this.baseTexture)
-        {
-            this.baseTexture = baseTexture;
-        }
-
-        if (this.loaded)
-        {
-            this._validate();
-        }
+        baseTexture.target = TARGETS.TEXTURE_CUBE_MAP;
+        super.onTextureNew(baseTexture);
     }
 
     _validate()
@@ -120,5 +114,17 @@ export default class CubeResource extends TextureResource
         }
 
         return true;
+    }
+
+    static from(...urls)
+    {
+        const cubeResource = new CubeResource();
+
+        for (let i = 0; i < 6; i++)
+        {
+            cubeResource.setResource(ImageResource.from(urls[i % urls.length]), i);
+        }
+
+        return cubeResource;
     }
 }
