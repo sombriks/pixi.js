@@ -13,8 +13,8 @@ export default class BufferResource extends SingleTextureResource
          * @member {Float32Array|Uint8Array|Uint32Array}
          */
         this.data = data;
-        this._width = width;
-        this._height = height;
+        this._width = width || 0;
+        this._height = height || 0;
     }
 
     get width()

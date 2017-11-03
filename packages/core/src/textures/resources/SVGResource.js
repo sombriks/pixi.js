@@ -1,5 +1,5 @@
 import { decomposeDataUri, uid } from '@pixi/utils';
-import TextureResource from './BaseImageResource';
+import BaseImageResource from './BaseImageResource';
 
 /**
  * Resource type for SVG elements and graphics.

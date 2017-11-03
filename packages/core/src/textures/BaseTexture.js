@@ -192,37 +192,6 @@ export default class BaseTexture extends EventEmitter
         {
             this.type = type;
         }
-
-        resource.load
-            .then(this.resourceLoaded.bind(this))
-            .catch((reason) =>
-            {
-            // failed to load - maybe resource was destroyed before it loaded.
-                console.warn(reason);
-            });
-    }
-
-    resourceLoaded(resource)
-    {
-        if (this.resource === resource)
-        {
-            this.updateResolution();
-
-            this.validate();
-
-            if (this.valid)
-            {
-                this.isPowerOfTwo = bitTwiddle.isPow2(this.realWidth) && bitTwiddle.isPow2(this.realHeight);
-
-                // we have not swapped half way!
-                this.dirtyId++;
-
-                this.emit('loaded', this);
-            }
-        }
-    }
-
-        return this;
     }
 
     /**
@@ -263,7 +232,7 @@ export default class BaseTexture extends EventEmitter
      * Performs secondary initialization according to assigned tag.
      * Tag is just a string that i used by some of texture resources.
      *
-     * @param tag
+     * @param {string} tag
      * @returns {BaseTexture}
      */
     setTag(tag)
@@ -419,13 +388,8 @@ export default class BaseTexture extends EventEmitter
     {
         float32Array = float32Array || new Float32Array(width * height * 4);
 
-        const texture = new BaseTexture(new BufferResource(float32Array),
-            SCALE_MODES.NEAREST,
-            1,
-            width,
-            height,
-            FORMATS.RGBA,
-            TYPES.FLOAT);
+        const texture = new BaseTexture(new BufferResource(float32Array, width, height))
+                .setStyle(SCALE_MODES.NEAREST, FORMATS.RGBA, TYPES.FLOAT);
 
         return texture;
     }
